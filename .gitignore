@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Banco H2 local (recriado pelo Flyway) ###
+DATA/
+
+### IA e arquivos auxiliares ###
+aux/
+.claude/
+CLAUDE.md
+*.md
+!README.md
