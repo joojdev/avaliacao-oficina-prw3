@@ -13,5 +13,8 @@ public record DadosVeiculo(
         // ano obrigatório e no formato xxxx
         @NotBlank
         @Pattern(regexp = "\\d{4}")
-        String ano) {
+        String ano,
+
+        // cor não é obrigatória
+        String cor) {
 }
