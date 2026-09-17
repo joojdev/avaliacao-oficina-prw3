@@ -4,6 +4,7 @@ import br.edu.ifsp.prw3.api.conserto.Conserto;
 import br.edu.ifsp.prw3.api.conserto.ConsertoRepository;
 import br.edu.ifsp.prw3.api.conserto.DadosCadastroConserto;
 import br.edu.ifsp.prw3.api.conserto.DadosDetalhamentoConserto;
+import br.edu.ifsp.prw3.api.conserto.DadosListagemConserto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("consertos")
@@ -32,5 +35,13 @@ public class ConsertoController {
     public Page<DadosDetalhamentoConserto> listar(Pageable paginacao) {
         // todos os dados, paginados (ex.: ?page=0&size=10&sort=dataEntrada)
         return repository.findAll(paginacao).map(DadosDetalhamentoConserto::new);
+    }
+
+    @GetMapping("algunsdados")
+    public List<DadosListagemConserto> listarAlgunsDados() {
+        // dados parciais, sem paginação
+        return repository.findAll().stream()
+                .map(DadosListagemConserto::new)
+                .toList();
     }
 }
