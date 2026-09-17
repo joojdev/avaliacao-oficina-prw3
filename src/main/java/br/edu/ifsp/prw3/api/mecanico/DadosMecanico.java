@@ -1,4 +1,11 @@
 package br.edu.ifsp.prw3.api.mecanico;
 
-public record DadosMecanico(String nome, Integer anosExperiencia) {
+import jakarta.validation.constraints.NotBlank;
+
+public record DadosMecanico(
+        // nome do mecânico é obrigatório
+        @NotBlank
+        String nome,
+
+        Integer anosExperiencia) {
 }
