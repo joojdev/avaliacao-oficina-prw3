@@ -8,4 +8,8 @@ public record DadosMecanico(
         String nome,
 
         Integer anosExperiencia) {
+
+    public DadosMecanico(Mecanico mecanico) {
+        this(mecanico.getNome(), mecanico.getAnosExperiencia());
+    }
 }

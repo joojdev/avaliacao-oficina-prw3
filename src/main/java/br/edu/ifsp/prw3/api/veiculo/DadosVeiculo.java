@@ -17,4 +17,8 @@ public record DadosVeiculo(
 
         // cor não é obrigatória
         String cor) {
+
+    public DadosVeiculo(Veiculo veiculo) {
+        this(veiculo.getMarca(), veiculo.getModelo(), veiculo.getAno(), veiculo.getCor());
+    }
 }
