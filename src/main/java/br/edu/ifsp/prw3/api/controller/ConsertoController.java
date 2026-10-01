@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,24 +34,31 @@ public class ConsertoController {
 
     @PostMapping
     @Transactional
-    public void cadastrar(@RequestBody @Valid DadosCadastroConserto dados) {
-        repository.save(new Conserto(dados));
+    public ResponseEntity<DadosDetalhamentoConserto> cadastrar(@RequestBody @Valid DadosCadastroConserto dados,
+                                                               UriComponentsBuilder uriBuilder) {
+        Conserto conserto = new Conserto(dados);
+        repository.save(conserto);
+
+        // 201 Created com o endereço do novo recurso no cabeçalho Location
+        var uri = uriBuilder.path("/consertos/{id}").buildAndExpand(conserto.getId()).toUri();
+        return ResponseEntity.created(uri).body(new DadosDetalhamentoConserto(conserto));
     }
 
     @GetMapping
-    public Page<DadosDetalhamentoConserto> listar(Pageable paginacao) {
+    public ResponseEntity<Page<DadosDetalhamentoConserto>> listar(Pageable paginacao) {
         // todos os dados, paginados (ex.: ?page=0&size=10&sort=dataEntrada)
-        return repository.findAll(paginacao).map(DadosDetalhamentoConserto::new);
+        Page<DadosDetalhamentoConserto> page = repository.findAll(paginacao).map(DadosDetalhamentoConserto::new);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("algunsdados")
-    public List<DadosListagemConserto> listarAlgunsDados() {
+    public ResponseEntity<List<DadosListagemConserto>> listarAlgunsDados() {
         // dados parciais, sem paginação, apenas dos consertos ativos
-        return repository.findAllByAtivoTrue().stream()
+        List<DadosListagemConserto> lista = repository.findAllByAtivoTrue().stream()
                 .map(DadosListagemConserto::new)
                 .toList();
+        return ResponseEntity.ok(lista);
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoConserto> detalhar(@PathVariable Long id) {
