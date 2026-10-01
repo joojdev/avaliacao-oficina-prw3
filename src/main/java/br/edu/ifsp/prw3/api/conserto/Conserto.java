@@ -56,4 +56,8 @@ public class Conserto {
             this.mecanico.atualizarInformacoes(dados.mecanico());
         }
     }
+
+    public void excluir() {
+        this.ativo = false;
+    }
 }
