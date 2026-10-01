@@ -9,13 +9,15 @@ public record DadosDetalhamentoConserto(
         String dataEntrada,
         String dataSaida,
         DadosMecanico mecanico,
-        DadosVeiculo veiculo) {
+        DadosVeiculo veiculo,
+        Boolean ativo) {
 
     public DadosDetalhamentoConserto(Conserto conserto) {
         this(conserto.getId(),
                 conserto.getDataEntrada(),
                 conserto.getDataSaida(),
                 new DadosMecanico(conserto.getMecanico()),
-                new DadosVeiculo(conserto.getVeiculo()));
+                new DadosVeiculo(conserto.getVeiculo()),
+                conserto.getAtivo());
     }
 }

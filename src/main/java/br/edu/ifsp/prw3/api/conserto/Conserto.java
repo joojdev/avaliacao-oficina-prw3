@@ -35,10 +35,15 @@ public class Conserto {
     @Embedded
     private Veiculo veiculo;
 
+    // exclusão lógica: o registro continua no banco, só fica inativo
+    private Boolean ativo;
+
     public Conserto(DadosCadastroConserto dados) {
         this.dataEntrada = dados.dataEntrada();
         this.dataSaida = dados.dataSaida();
         this.mecanico = new Mecanico(dados.mecanico());
         this.veiculo = new Veiculo(dados.veiculo());
+        // todo conserto novo começa ativo
+        this.ativo = true;
     }
 }
