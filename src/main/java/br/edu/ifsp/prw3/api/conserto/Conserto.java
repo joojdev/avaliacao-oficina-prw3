@@ -46,4 +46,14 @@ public class Conserto {
         // todo conserto novo começa ativo
         this.ativo = true;
     }
+
+    public void atualizarInformacoes(DadosAtualizacaoConserto dados) {
+        // só a data de saída e os dados do mecânico podem ser alterados
+        if (dados.dataSaida() != null) {
+            this.dataSaida = dados.dataSaida();
+        }
+        if (dados.mecanico() != null) {
+            this.mecanico.atualizarInformacoes(dados.mecanico());
+        }
+    }
 }

@@ -20,4 +20,13 @@ public class Mecanico {
         this.anosExperiencia = dados.anosExperiencia();
     }
 
+    public void atualizarInformacoes(DadosAtualizacaoMecanico dados) {
+        // o nome é obrigatório: só troca se vier preenchido
+        if (dados.nome() != null && !dados.nome().isBlank()) {
+            this.nome = dados.nome();
+        }
+        if (dados.anosExperiencia() != null) {
+            this.anosExperiencia = dados.anosExperiencia();
+        }
+    }
 }

@@ -2,6 +2,7 @@ package br.edu.ifsp.prw3.api.controller;
 
 import br.edu.ifsp.prw3.api.conserto.Conserto;
 import br.edu.ifsp.prw3.api.conserto.ConsertoRepository;
+import br.edu.ifsp.prw3.api.conserto.DadosAtualizacaoConserto;
 import br.edu.ifsp.prw3.api.conserto.DadosCadastroConserto;
 import br.edu.ifsp.prw3.api.conserto.DadosDetalhamentoConserto;
 import br.edu.ifsp.prw3.api.conserto.DadosListagemConserto;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,6 +57,21 @@ public class ConsertoController {
 
         if (consertoOptional.isPresent()) {
             return ResponseEntity.ok(new DadosDetalhamentoConserto(consertoOptional.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoConserto> atualizar(@PathVariable Long id,
+                                                               @RequestBody @Valid DadosAtualizacaoConserto dados) {
+        Optional<Conserto> consertoOptional = repository.findById(id);
+
+        if (consertoOptional.isPresent()) {
+            Conserto conserto = consertoOptional.get();
+            // não precisa de save: dentro da transação a JPA sincroniza as alterações sozinha
+            conserto.atualizarInformacoes(dados);
+            return ResponseEntity.ok(new DadosDetalhamentoConserto(conserto));
         }
         return ResponseEntity.notFound().build();
     }
