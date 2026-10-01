@@ -39,8 +39,8 @@ public class ConsertoController {
 
     @GetMapping("algunsdados")
     public List<DadosListagemConserto> listarAlgunsDados() {
-        // dados parciais, sem paginação
-        return repository.findAll().stream()
+        // dados parciais, sem paginação, apenas dos consertos ativos
+        return repository.findAllByAtivoTrue().stream()
                 .map(DadosListagemConserto::new)
                 .toList();
     }

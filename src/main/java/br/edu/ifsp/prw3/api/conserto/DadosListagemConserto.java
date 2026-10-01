@@ -2,6 +2,7 @@ package br.edu.ifsp.prw3.api.conserto;
 
 // Dados parciais: datas, nome do mecânico, marca e modelo do veículo
 public record DadosListagemConserto(
+        Long id,
         String dataEntrada,
         String dataSaida,
         String nomeMecanico,
@@ -9,7 +10,8 @@ public record DadosListagemConserto(
         String modelo) {
 
     public DadosListagemConserto(Conserto conserto) {
-        this(conserto.getDataEntrada(),
+        this(conserto.getId(),
+                conserto.getDataEntrada(),
                 conserto.getDataSaida(),
                 conserto.getMecanico().getNome(),
                 conserto.getVeiculo().getMarca(),
