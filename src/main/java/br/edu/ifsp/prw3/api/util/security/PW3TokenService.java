@@ -4,6 +4,7 @@ import br.edu.ifsp.prw3.api.usuario.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,10 +16,14 @@ public class PW3TokenService {
 
     private static final String ISSUER = "API OFICINA PW3";
 
+    // chave lida do application.properties (variável de ambiente JWT_SECRET), nunca fixa no código
+    @Value("${pw3.senha.principal.geracao.token}")
+    private String secret;
+
     public String gerarToken(Usuario usuario) {
         try {
             // HMAC com SHA-256: só quem tem a chave secreta consegue gerar/validar o token
-            var algoritmo = Algorithm.HMAC256("12345678");
+            var algoritmo = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer(ISSUER)
                     .withSubject(usuario.getLogin())
